@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VS COde
+.vscode/
+
+# My trial and error folder
+experiments/
