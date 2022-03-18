@@ -1,6 +1,8 @@
 import os
 import stat
 import string
+import shutil
+from pathlib import Path
 
 
 def get_drives():
@@ -67,6 +69,26 @@ def rename(curr_dir, old_name, new_name):
     old_name = create_path(curr_dir, old_name)
     new_name = create_path(curr_dir, new_name)
     os.rename(old_name, new_name)
+
+
+def move(dst, file_to_move):
+    """Moves the file to the paste location. Returns True if there was a FileExistsError."""
+
+    try:
+        shutil.move(file_to_move, dst)
+    except shutil.Error:
+        return True
+    return False
+
+
+def copy(dst, file_to_copy):
+    """Copies a file to the paste location."""
+    if os.path.isfile(file_to_copy):
+        shutil.copy(file_to_copy, dst)
+    else:
+        file = Path(file_to_copy).stem
+        dst = os.path.join(dst, file)
+        shutil.copytree(file_to_copy, dst)
 
 
 ROOT_DIRECTORIES = get_drives()
