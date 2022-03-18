@@ -2,8 +2,7 @@ import os
 import stat
 import string
 import shutil
-from pathlib import Path
-
+import psutil
 
 def get_drives():
     """Get all the drives and devices connected on this PC/laptop."""
@@ -86,9 +85,22 @@ def copy(dst, file_to_copy):
     if os.path.isfile(file_to_copy):
         shutil.copy(file_to_copy, dst)
     else:
-        file = Path(file_to_copy).stem
+        file = os.path.basename(file_to_copy)
         dst = os.path.join(dst, file)
         shutil.copytree(file_to_copy, dst)
 
+def delete(curr_dir, filename):
+    """Deletes the given file. Returns error as True if the file/folder is already opened."""
+
+    file_path = os.path.join(curr_dir, filename)
+    
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+    else:
+        try:
+            shutil.rmtree(file_path)
+        except PermissionError:
+            return True
+    return False
 
 ROOT_DIRECTORIES = get_drives()
