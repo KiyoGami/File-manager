@@ -28,7 +28,7 @@ A simple GUI-based file manager application. The GUI was created using `PySimple
    <br>`git clone https://github.com/VisakhChekur/filemgr.git`
 
 2. Install the required packages with:
-   <br>`pip install -r requirements.txt`
+   <br>`pip install -r requirements.txt`<br>OR<br>`conda create --name <your env name> --file requirements.txt`
 
 3. Run the application with:
    <br>`python main.py`
