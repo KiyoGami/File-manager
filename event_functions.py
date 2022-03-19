@@ -1,5 +1,17 @@
 import PySimpleGUI as sg
-from file_handling import open, create_path, ROOT_DIRECTORIES, rename, copy, move, delete
+from file_handling import open, create_path, rename, copy, move, delete, create_dir, create_file
+from layout import file_details_win_layout
+from constants import file_types, key_shortcuts
+
+
+def show_key_shortcuts():
+    msg = ""
+    for operation, key in key_shortcuts.items():
+        msg += f"{operation}: {key}" + "\n\n"
+    sg.popup_no_buttons(
+        msg,
+        title="",
+    )
 
 
 def select_file(window, values, curr_dir):
@@ -94,6 +106,29 @@ def delete_file(window, values, curr_dir):
         refresh(window, curr_dir)
 
 
+def create_new_file(window, values, curr_dir):
+    file_name = new_file_details()
+    if file_name:
+        error = create_file(curr_dir, file_name)
+        if error == "exists":
+            file_exists_error()
+        elif error == "file name error":
+            sg.popup_auto_close(f"The file name, '{file_name}' is invalid.")
+
+    refresh(window, curr_dir)
+
+
+def create_new_dir(window, values, curr_dir):
+    """Creates a new directory in the current directory."""
+
+    dir_name = sg.popup_get_text("Enter the name of the new folder")
+    if dir_name:
+        error = create_dir(curr_dir, dir_name)
+        if error:
+            file_exists_error(type="folder")
+    refresh(window, curr_dir)
+
+
 def go_back(window, curr_dir):
     """Goes back a hierarchy."""
 
@@ -111,7 +146,79 @@ def cancel(window):
     toggle_all_btns(window, disable=False)
     return "", ""
 
+# ------- CREATING NEW FILE ---------
+
+
+def new_file_details():
+    """Gets the file name of the new file to be created. Returns None if the given file details are invalid."""
+
+    # creating new window for user to enter file details
+    win = create_file_details_window()
+    while True:
+        event, values = win.read()
+        if event == "cancel":
+            win.close()
+        elif event == "create_file":
+            # getting the file name and file type and returning properly formatted file name if possible
+            file_name, file_type = valid_file_details(values)
+            if file_name and file_type:
+                file_name = formatted_file_name(file_name)
+                win.close()
+                return file_name + file_type
+            if file_name:
+                file_type = get_file_type(file_name)
+                file_name = formatted_file_name(file_name)
+                win.close()
+                return file_name + file_type
+        elif event == sg.WIN_CLOSED:
+            break
+    return None
+
+
+def formatted_file_name(filename):
+    return filename.split(".")[0]
+
+
+def get_file_type(filename):
+    return "." + filename.split(".")[1]
+
+
+def valid_file_details(values):
+    """Validates file details and returns filename and file type, whichever ones are available. The ones not available are returned the value of None."""
+
+    file_name = values['file_name']
+    file_type = values['file_type']
+    if file_name and file_type:
+        return file_name, file_types[file_type]
+    elif file_name and not file_type:
+        # returns the file name if a proper file type can be found from it else an error popup is shown
+        if '.' in file_name:
+            return file_name, None
+        else:
+            sg.popup_auto_close(
+                "Please select a file type or include it in the file name.", auto_close_duration=4, keep_on_top=True)
+    return None, None
+
+
+def create_file_details_window():
+    """Creates the window that will be used to get the details of the file from the user."""
+
+    return sg.Window(
+        "File Details",
+        layout=file_details_win_layout(),
+        no_titlebar=True,
+        disable_minimize=True,
+        keep_on_top=True,
+
+    )
+
 # ---------- UTILITY FUNCTIONS -----------
+
+
+def file_exists_error(type="file"):
+    """Displays error popup when the operation is not possible because the file/folder already exists."""
+    sg.popup_auto_close(f"A {type} already exists!",
+                        title="Error", auto_close_duration=4, keep_on_top=True)
 
 
 def update_options(window, new_files):

@@ -1,8 +1,7 @@
 import os
-import stat
 import string
 import shutil
-import psutil
+
 
 def get_drives():
     """Get all the drives and devices connected on this PC/laptop."""
@@ -89,11 +88,12 @@ def copy(dst, file_to_copy):
         dst = os.path.join(dst, file)
         shutil.copytree(file_to_copy, dst)
 
+
 def delete(curr_dir, filename):
     """Deletes the given file. Returns error as True if the file/folder is already opened."""
 
     file_path = os.path.join(curr_dir, filename)
-    
+
     if os.path.isfile(file_path):
         os.remove(file_path)
     else:
@@ -102,5 +102,29 @@ def delete(curr_dir, filename):
         except PermissionError:
             return True
     return False
+
+
+def create_dir(curr_dir, dir_name):
+    """Creates a new folder. If the folder already exists, then True is returned."""
+    dir_path = os.path.join(curr_dir, dir_name)
+    if os.path.exists(dir_path):
+        return True
+
+    os.mkdir(dir_path)
+    return False
+
+
+def create_file(curr_dir, filename):
+
+    file_path = os.path.join(curr_dir, filename)
+    if os.path.exists(file_path):
+        return "exists"
+    try:
+        newfile = os.open(file_path, os.O_CREAT)
+        os.close(newfile)
+    except:
+        return "file name error"
+    return "success"
+
 
 ROOT_DIRECTORIES = get_drives()

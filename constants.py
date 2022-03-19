@@ -1,0 +1,45 @@
+keyboard_values = {
+    "open": "o",
+    "delete": "Delete:46",
+    "rename": "r",
+    "back": "BackSpace:8",
+    "copy": "c:67",
+    "paste": "v:86",
+    "move": "m:77",
+    "cancel": "Escape:27",
+    "new_file": "f",
+    "new_dir": "d",
+    "key_shortcuts": "k",
+}
+
+key_shortcuts = {
+    "Go Back": "backspace",
+    "Open File": "o",
+    "Create File": "f",
+    "Create Folder": "d",
+    "Copy File/Folder": "ctrl + c",
+    "Paste File/Folder": "ctrl + p",
+    "Move File/Folder": "ctrl + m",
+    "Rename File/Folder": "r",
+    "Delete File": "del",
+    "Cancel": "esc",
+}
+file_types = {
+    "Text Document": ".txt",
+    "Word Document": ".docx",
+    "Microsoft PowerPoint": ".pptx",
+    "PDF File": ".pdf",
+    "Rich Text Format File": ".rtf",
+    "Joint Photographic Experts Group Photo": ".jpg",
+    "Portable Network Graphics File": ".png",
+    "Wave Audio File": ".wav",
+    "MPEG 3": ".mp3",
+    "MPEG 4 Video": ".mp4",
+    "PC Batch File": ".bat",
+    "Binary Compressed File": ".bin",
+    "Bitmap File": ".bmp",
+    "Graphical Interchange Format File": ".gif",
+    "Hypertext markup language page": ".html",
+    "ISO-9660 disc image": ".iso",
+
+}
