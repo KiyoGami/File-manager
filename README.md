@@ -4,7 +4,7 @@
 
 1. [Introduction](#intro)
 2. [Available File Operations](#file-operations)
-3. [Installations Guide](#install)
+3. [Installation Guide](#install)
 
 ## Introduction <a id=intro></a>
 
