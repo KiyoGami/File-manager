@@ -39,10 +39,10 @@ while True:
     if event in ("options", kv['open']):
         curr_dir = ef.select_file(window, values, curr_dir)
     # go back one hierarchy
-    elif event in ("back_btn", kv['back']):
+    elif event in ("back_btn", kv['back'], "Back"):
         curr_dir = ef.go_back(window, curr_dir)
     # sort file/folder
-    elif event == "sort":
+    elif event in ("sort","Sort"):
         ef.sort(window, curr_dir)
     # elif event == "sort_by_name_btn":
     #     sort_reverse = ef.sort_by_name(window, curr_dir, sort_reverse)
@@ -53,35 +53,35 @@ while True:
     # elif event == "sort_by_size_btn":
     #     sort_reverse = ef.sort_by_size(window, curr_dir, sort_reverse)
     # find
-    elif event == "find_btn":
+    elif event in ("find_btn","Find"):
         ef.find(window, curr_dir)
     # Zip/UnZip
-    elif event == "zip_btn":
+    elif event in ("zip_btn","Zip"):
         ef.zip(window,values,curr_dir)
-    elif event == "unzip_btn":
+    elif event in ("unzip_btn","Unzip"):
         ef.unzip(window,values,curr_dir)
     # rename file/folder
-    elif event in ('rename_btn', kv['rename']):
+    elif event in ('rename_btn', kv['rename'], "Rename"):
         ef.rename_file(window, values, curr_dir)
     # copy files/folders
-    elif event in ('copy_btn', kv['copy']):
+    elif event in ('copy_btn', kv['copy'], "Copy"):
         file_to_copy = ef.copy_file(values, curr_dir)
     # paste copied files/folders
-    elif event in ('paste_btn', kv['paste']):
+    elif event in ('paste_btn', kv['paste'], "Paste"):
         ef.paste_file(window, curr_dir, file_to_copy)
     # move files/folders
-    elif event in ('move_btn', kv['move']):
+    elif event in ('move_btn', kv['move'], "Move"):
         file_to_move = ef.move_file(window, values, curr_dir, file_to_move)
-    elif event in ('delete_btn', kv['delete']):
+    elif event in ('delete_btn', kv['delete'], "Delete"):
         ef.delete_file(window, values, curr_dir)
     # cancel current operation
     elif event in ('cancel_btn', kv['cancel']):
         file_to_copy, file_to_move = ef.cancel(window)
     # new file
-    elif event in ('new_file_btn', kv["new_file"]):
+    elif event in ('new_file_btn', kv["new_file"], "New File"):
         ef.create_new_file(window, values, curr_dir)
     # new folder
-    elif event in ('new_dir_btn', kv["new_dir"]):
+    elif event in ('new_dir_btn', kv["new_dir"], "New Folder"):
         ef.create_new_dir(window, values, curr_dir)
     # show keyboard shortcuts
     elif event in ('shortcut_btn', kv["key_shortcuts"]):

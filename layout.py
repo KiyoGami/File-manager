@@ -8,6 +8,7 @@ def create_layout():
     files = sg.Listbox(
         values=ROOT_DIRECTORIES,
         select_mode="LISTBOX_SELECT_MODE_SINGLE",
+        right_click_menu=['&Right', ['Back', 'Sort', 'Find', 'Zip', 'Unzip', 'New File', 'New Folder', 'Rename', 'Copy', 'Paste', 'Move', 'Delete']],
         size=(50, 30),
         # no_scrollbar=True,
         key='options',
