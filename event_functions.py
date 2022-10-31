@@ -186,8 +186,7 @@ def zip(window,values,curr_dir):
         except:
             sg.popup_auto_close(f"The file name, '{zip_name}' is invalid.")
     elif os.path.isdir(os.path.join(curr_dir,values['options'][0])):
-        print(zip_name,os.path.join(curr_dir,values['options'][0]))
-        shutil.make_archive(zip_name, 'zip', base_dir=os.path.join(curr_dir,values['options'][0]))
+        shutil.make_archive(os.path.join(curr_dir, zip_name), 'zip', root_dir=os.path.join(curr_dir,values['options'][0]))
     refresh(window, curr_dir)
 
 def unzip(window,values,curr_dir):

@@ -5,8 +5,8 @@ from layout import create_layout
 
 # ---------- VARIABLES --------
 
-# sort reverse
-sort_reverse=False
+# # sort reverse
+# sort_reverse=False
 # stores the current directory the user is on
 curr_dir = ""
 # the filepath of the file to be copied
