@@ -1,4 +1,9 @@
+from genericpath import isdir, isfile
 import PySimpleGUI as sg
+import os
+import zipfile
+import shutil
+from layout import create_layout
 from file_handling import open, create_path, rename, copy, move, delete, create_dir, create_file
 from layout import file_details_win_layout
 from constants import file_types, key_shortcuts
@@ -128,6 +133,100 @@ def create_new_dir(window, values, curr_dir):
             file_exists_error(type="folder")
     refresh(window, curr_dir)
 
+def sort(window,curr_dir):
+    win=sg.Window(
+        "Sort",
+        layout=[
+            [sg.Text("Sort By"), sg.Radio("Name","RADIO",key="SortName"),
+                sg.Radio("Date","RADIO",key="SortDate"),
+                sg.Radio("Size","RADIO",key="SortSize"),
+                sg.Radio("Type","RADIO",key="SortType"),
+            ],
+            [sg.Checkbox(text="Reverse",key="Reverse")],
+            [sg.Button("Sort", key="sort"), sg.Cancel(key="cancel")]
+        ],
+        no_titlebar=True,
+        disable_minimize=True,
+        keep_on_top=True
+    )
+    while True:
+        event, values = win.read()
+        if event == "cancel":
+            win.close()
+            break
+        elif event == "sort":
+            if(values['SortName']):
+                sort_by_name(window,curr_dir,values['Reverse'])
+            elif(values['SortDate']):
+                sort_by_date(window,curr_dir,values['Reverse'])
+            elif(values['SortSize']):
+                sort_by_size(window,curr_dir,values['Reverse'])
+            elif(values['SortType']):
+                sort_by_type(window,curr_dir,values['Reverse'])
+            win.close()
+        elif event == sg.WIN_CLOSED:
+            break
+
+def zip(window,values,curr_dir):
+    # error if no file is chosen
+    if not values['options']:
+        no_file_error()
+        return
+    zip_name = sg.popup_get_text("Enter the zip name")
+    if not zip_name: return
+    file_path = os.path.join(curr_dir, zip_name+".zip")
+    if os.path.exists(file_path):
+        file_exists_error()
+    elif os.path.isfile(os.path.join(curr_dir,values['options'][0])):
+        try:
+            zip = zipfile.ZipFile(curr_dir+"/"+zip_name+".zip", "w", zipfile.ZIP_DEFLATED)
+            for filename in values['options']:
+                zip.write(os.path.join(curr_dir, filename),os.path.basename(os.path.join(curr_dir, filename)))
+            zip.close()
+        except:
+            sg.popup_auto_close(f"The file name, '{zip_name}' is invalid.")
+    elif os.path.isdir(os.path.join(curr_dir,values['options'][0])):
+        print(zip_name,os.path.join(curr_dir,values['options'][0]))
+        shutil.make_archive(zip_name, 'zip', base_dir=os.path.join(curr_dir,values['options'][0]))
+    refresh(window, curr_dir)
+
+def unzip(window,values,curr_dir):
+    pass
+
+def find(window,curr_dir):
+    find_name = sg.popup_get_text("Enter the name")
+    if(not find_name):
+        sg.popup("Error: Field cannot be left blank!")
+        return
+    new_files = open(curr_dir)
+    filter=[]
+    for name in new_files:
+        if(find_name.lower() in name.lower()):
+            filter.append(name)
+    if(len(filter)==0):
+        sg.popup("Not Found!")
+    else:
+        update_options(window,filter)
+
+def sort_by_name(window,curr_dir,reverse):
+    new_files = open(curr_dir)
+    update_options(window, sorted(new_files,reverse=reverse))
+    return not reverse
+
+def sort_by_size(window,curr_dir,reverse):
+    new_files = open(curr_dir)
+    update_options(window, sorted(new_files,reverse=reverse,key=lambda x:os.path.getsize(curr_dir+'/'+x)))
+    return not reverse
+
+def sort_by_date(window,curr_dir,reverse):
+    new_files = open(curr_dir)
+    update_options(window, sorted(new_files,reverse=reverse,key=lambda x:os.path.getmtime(curr_dir+'/'+x)))
+    return not reverse
+
+def sort_by_type(window,curr_dir,reverse):
+    new_files = open(curr_dir)
+    update_options(window, sorted(new_files,reverse=reverse,key=lambda x:os.path.splitext(x)[1]))
+    return not reverse
 
 def go_back(window, curr_dir):
     """Goes back a hierarchy."""

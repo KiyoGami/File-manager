@@ -29,6 +29,14 @@ def create_layout():
 def create_buttons():
     buttons = {
         "back_btn": "Go Back",
+        "sort": "Sort",
+        # "sort_by_name_btn": "Sort By Name",
+        # "sort_by_date_btn": "Sort By Date",
+        # "sort_by_type_btn": "Sort By Type",
+        # "sort_by_size_btn": "Sort By Size",
+        "find_btn": "Find",
+        "zip_btn": "Zip",
+        "unzip_btn": "UnZip",
         "new_file_btn": "Create New File",
         "new_dir_btn": "Create New Folder",
         "rename_btn": "Rename",

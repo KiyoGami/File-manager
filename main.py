@@ -5,6 +5,8 @@ from layout import create_layout
 
 # ---------- VARIABLES --------
 
+# sort reverse
+sort_reverse=False
 # stores the current directory the user is on
 curr_dir = ""
 # the filepath of the file to be copied
@@ -39,6 +41,25 @@ while True:
     # go back one hierarchy
     elif event in ("back_btn", kv['back']):
         curr_dir = ef.go_back(window, curr_dir)
+    # sort file/folder
+    elif event == "sort":
+        ef.sort(window, curr_dir)
+    # elif event == "sort_by_name_btn":
+    #     sort_reverse = ef.sort_by_name(window, curr_dir, sort_reverse)
+    # elif event == "sort_by_date_btn":
+    #     sort_reverse = ef.sort_by_date(window, curr_dir, sort_reverse)
+    # elif event == "sort_by_type_btn":
+    #     sort_reverse = ef.sort_by_type(window, curr_dir, sort_reverse)
+    # elif event == "sort_by_size_btn":
+    #     sort_reverse = ef.sort_by_size(window, curr_dir, sort_reverse)
+    # find
+    elif event == "find_btn":
+        ef.find(window, curr_dir)
+    # Zip/UnZip
+    elif event == "zip_btn":
+        ef.zip(window,values,curr_dir)
+    elif event == "unzip_btn":
+        ef.unzip(window,values,curr_dir)
     # rename file/folder
     elif event in ('rename_btn', kv['rename']):
         ef.rename_file(window, values, curr_dir)
