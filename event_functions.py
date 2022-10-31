@@ -190,7 +190,18 @@ def zip(window,values,curr_dir):
     refresh(window, curr_dir)
 
 def unzip(window,values,curr_dir):
-    pass
+    # error if no file is chosen
+    if not values['options']:
+        no_file_error()
+        return
+    elif os.path.splitext(values['options'][0])[1]!=".zip":
+        sg.popup("Error! Only Uncompress Zip File!")
+        return
+    folder_name = sg.popup_get_text("Enter the folder name(Null is Extract Here)")
+    if not folder_name: folder_name=os.path.splitext(values['options'][0])[0]
+    file_path = os.path.join(curr_dir, folder_name)
+    shutil.unpack_archive(os.path.join(curr_dir, values['options'][0]),extract_dir=file_path)
+    refresh(window, curr_dir)
 
 def find(window,curr_dir):
     find_name = sg.popup_get_text("Enter the name")
