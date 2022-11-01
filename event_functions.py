@@ -145,7 +145,7 @@ def sort(window,curr_dir):
             [sg.Checkbox(text="Reverse",key="Reverse")],
             [sg.Button("Sort", key="sort"), sg.Cancel(key="cancel")]
         ],
-        no_titlebar=True,
+        # no_titlebar=True,
         disable_minimize=True,
         keep_on_top=True
     )
@@ -316,7 +316,7 @@ def create_file_details_window():
     return sg.Window(
         "File Details",
         layout=file_details_win_layout(),
-        no_titlebar=True,
+        # no_titlebar=True,
         disable_minimize=True,
         keep_on_top=True,
 
