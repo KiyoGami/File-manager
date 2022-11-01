@@ -298,6 +298,7 @@ def valid_file_details(values):
     file_name = values['file_name']
     file_type = values['file_type']
     if file_name and file_type:
+        file_type = ' '.join(file_type.split()[:-1])
         return file_name, file_types[file_type]
     elif file_name and not file_type:
         # returns the file name if a proper file type can be found from it else an error popup is shown
